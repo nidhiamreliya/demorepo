@@ -1,0 +1,23 @@
+.form_head
+{
+	border-bottom: 5px solid #00b359;
+}
+.btn_submit
+{
+	width: 155px;
+	font-weight: bold;
+	font-size: 18px;
+}
+.reg_form
+{
+	padding-top: 30px;
+}
+.profile_pic
+{
+	height: 200px;
+	width:200px;
+}
+.col_profil_pic
+{
+	padding-top: 50px;
+}
