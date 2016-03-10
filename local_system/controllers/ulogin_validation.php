@@ -6,28 +6,31 @@
 	{
 		$$key = trim($value);	
 	} 
+	print_r($_POST);
 	$_SESSION['error'] = array();
-	if(empty($admin_id))
+	if(empty($user_name))
 	{
-		$_SESSION['error'][] = "Please provide your user name..";
+		$_SESSION['error'][] = "Please provide your user name or email..";
 	}
 	if(empty($password))
 	{
 		$_SESSION['error'][] = "Please provide your password..";
 	}
+
 	if(count($_SESSION['error']) == 0)
 	{
-		$result = get_row("select admin_id, admin_password from admin_data");
-		if($admin_id != $result["admin_id"])
+		
+		$result = get_row("select user_name, email_id, password from user_data where user_name = '?' or email_id = '?'", array($user_name,$user_name));
+		if($user_name != $result["user_name"] || $user_name != $result["email_id"])
 		{
 			$_SESSION['error_id'] = "Invalid user name.";
 		}
-		if($password != $result["admin_password"])
+		if($password != $result["password"])
 		{
 			$_SESSION['error_password'] = "Invalid password";
 		}
 	}
 	$_SESSION['data'] = $_POST;
-	
-	header('location: ../admin_login.php');
+		
+	header('location: ../user_login.php');
 ?>
