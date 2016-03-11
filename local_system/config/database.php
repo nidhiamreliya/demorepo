@@ -29,13 +29,10 @@ function get_row($query, $parameters = array())
 
 function get_rows($query, $parameters = array())
 {
-	//print_r($query);
-	//print_r($parameters);
 	global $mysql_connection;
 	$statement = $mysql_connection->prepare($query);
 	$statement->execute($parameters);
 	$result = $statement->fetchAll();
-	print_r($result);
 	return $result;
 }
 

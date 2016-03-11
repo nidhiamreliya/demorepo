@@ -1,6 +1,6 @@
 
 <?php
-//This is for check errors if any.
+  //This is for check errors if any.
   include('includes/session.php'); 
   $error_message = array(); 
   if (isset($_SESSION['errors']) && count($_SESSION['errors']) > 0)
@@ -34,7 +34,7 @@
   				<div class="form-group">
    					<label for="first name" class="col-md-4 control-label">First name:</label>
    					<div class="col-md-8">
-    				<input type="text" class="form-control" id="first_name" name="first_name" placeholder="Firt name">
+    				<input type="text" class="form-control" id="first_name" name="first_name" placeholder="First name" value="<?=isset($post_data['first_name']) ? $post_data['first_name']: ''?>">
             <label class="col-md-8 has-error error_class">
               <?php 
                 if(isset($error_message['first_name'])) 
@@ -48,7 +48,7 @@
   				<div class="form-group">
    					<label for="last name" class="col-md-4 control-label">Last name:</label>
    					<div class="col-md-8">
-    				<input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name">
+    				<input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name" value="<?=isset($post_data['last_name']) ? $post_data['last_name']: ''?>">
             <label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['last_name'])) 
@@ -62,7 +62,7 @@
   				<div class="form-group">
    					<label for="email id" class="col-md-4 control-label">E-mail:</label>
    					<div class="col-md-8">
-    				<input type="text" class="form-control" id="email_id" name="email_id" placeholder="Example@Email.com">
+    				<input type="email" class="form-control" id="email_id" name="email_id" placeholder="Example@Email.com" value="<?=isset($post_data['email_id']) ? $post_data['email_id']: ''?>">
             <label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['email_id'])) 
@@ -76,7 +76,7 @@
   				<div class="form-group">
    					<label for="user name" class="col-md-4 control-label">User name:</label>
    					<div class="col-md-8">
-    				<input type="text" class="form-control" id="user_name" name="user_name" placeholder="User name">
+    				<input type="text" class="form-control" id="user_name" name="user_name" placeholder="User name" value="<?=isset($post_data['user_name']) ? $post_data['user_name']: ''?>">
             <label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['user_name'])) 
@@ -90,7 +90,7 @@
   				<div class="form-group">
    					<label for="Password" class="col-md-4 control-label">Password:</label>
    					<div class="col-md-8">
-    				<input type="password" class="form-control" id="password"  name="password" placeholder="password">
+    				<input type="password" class="form-control" id="password"  name="password" placeholder="Password">
             <label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['password'])) 
@@ -104,7 +104,7 @@
   				<div class="form-group">
    					<label for="confirm password" class="col-md-4 control-label">Confirm Password:</label>
    					<div class="col-md-8">
-    				<input type="text" class="form-control" id="confirm_password" name="confirm_password"placeholder="Confirm password">
+    				<input type="password" class="form-control" id="confirm_password" name="confirm_password"placeholder="Confirm password">
     				<label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['confirm_password'])) 
@@ -118,7 +118,7 @@
   				<div class="form-group">
    					<label for="address line1" class="col-md-4 control-label">Address:</label>
    					<div class="col-md-8">
-    				<input type="text" class="form-control" id="address_line1" name="address_line1" placeholder="Address line1">
+    				<input type="text" class="form-control" id="address_line1" name="address_line1" placeholder="Address line1" value="<?=isset($post_data['address_line1']) ? $post_data['address_line1']: ''?>">
     				<label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['address_line1'])) 
@@ -131,7 +131,7 @@
     			</div>
     			<div class="form-group">
     				<div class="col-md-8 col-md-offset-4">
-    				<input type="text" class="form-control" id="address_line2" name="address_line2" placeholder="Address line2">
+    				<input type="text" class="form-control" id="address_line2" name="address_line2" placeholder="Address line2" value="<?=isset($post_data['address_line2']) ? $post_data['address_line2']: ''?>">
     				<label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['address_line2'])) 
@@ -145,7 +145,7 @@
   				<div class="form-group">
    					<label for="City" class="col-md-4 control-label">City:</label>
    					<div class="col-md-8">
-    				<input type="text" class="form-control" id="city" name="city" placeholder="City">
+    				<input type="text" class="form-control" id="city" name="city" placeholder="City" value="<?=isset($post_data['city']) ? $post_data['city']: ''?>">
             <label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['city'])) 
@@ -159,7 +159,7 @@
   				<div class="form-group">
    					<label for="Zip code" class="col-md-4 control-label">Zip Code:</label>
    					<div class="col-md-8">
-    				<input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="Zip-code">
+    				<input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="Zip-code" value="<?=isset($post_data['zip_code']) ? $post_data['zip_code']: ''?>">
             <label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['zip_code'])) 
@@ -173,7 +173,7 @@
   				<div class="form-group">
    					<label for="State" class="col-md-4 control-label">State:</label>
    					<div class="col-md-8">
-    				<input type="text" class="form-control" id="state" name="state" placeholder="State">
+    				<input type="text" class="form-control" id="state" name="state" placeholder="State" value="<?=isset($post_data['state']) ? $post_data['state']: ''?>">
             <label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['state'])) 
@@ -187,7 +187,7 @@
   				<div class="form-group">
    					<label for="Country" class="col-md-4 control-label">Country:</label>
    					<div class="col-md-8">
-    				<input type="text" class="form-control" id="country" name="country" placeholder="Country">
+    				<input type="text" class="form-control" id="country" name="country" placeholder="Country" value="<?=isset($post_data['country']) ? $post_data['country']: ''?>">
             <label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['country'])) 

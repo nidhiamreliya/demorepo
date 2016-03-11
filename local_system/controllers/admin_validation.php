@@ -17,17 +17,29 @@
 	}
 	if(count($_SESSION['error']) == 0)
 	{
-		$result = get_row("select admin_id, admin_password from admin_data");
-		if($admin_id != $result["admin_id"])
+		$result = get_row("select admin_id, admin_password from admin_data where admin_id = '".$admin_id."'");
+		if($result == 0)
 		{
-			$_SESSION['error_id'] = "Invalid user name.";
+			$_SESSION['error_id'] = "Invalid user name or password.";
+			$_SESSION['data'] = $_POST;
+			header('location: ../admin_login.php');
 		}
-		if($password != $result["admin_password"])
+		else
 		{
-			$_SESSION['error_password'] = "Invalid password";
+			$salt = "#asd!&%lkjhgd@@@";
+			$hash_password = md5(md5($salt) + md5($password));	
+			echo $hash_password;
+			if( $result['admin_password'] != $hash_password)
+			{
+				$_SESSION['error_password'] = "Invalid password";
+				$_SESSION['data'] = $_POST;
+				header('location: ../admin_login.php');
+			}
+			else
+			{	
+				$_SESSION['data'] = $post_data;
+				header('location: ../admin_panal.php');
+			}
 		}
 	}
-	$_SESSION['data'] = $_POST;
-	
-	header('location: ../admin_login.php');
 ?>

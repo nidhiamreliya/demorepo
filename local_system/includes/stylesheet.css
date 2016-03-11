@@ -1,6 +1,14 @@
 .form_head
 {
 	border-bottom: 5px solid #00b359;
+	height: 90px;
+}
+.btn_logout
+{
+	width: 155px;
+	font-weight: bold;
+	font-size: 18px;
+	margin-top: 30px;
 }
 .btn_submit
 {

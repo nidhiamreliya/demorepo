@@ -6,7 +6,6 @@
 	{
 		$$key = trim($value);	
 	} 
-	print_r($_POST);
 	$_SESSION['error'] = array();
 	if(empty($user_name))
 	{
@@ -16,21 +15,37 @@
 	{
 		$_SESSION['error'][] = "Please provide your password..";
 	}
+	
 
 	if(count($_SESSION['error']) == 0)
 	{
-		
-		$result = get_row("select user_name, email_id, password from user_data where user_name = '?' or email_id = '?'", array($user_name,$user_name));
-		if($user_name != $result["user_name"] || $user_name != $result["email_id"])
+		$result = get_row("select user_name, email_id, password from user_data where user_name = '".$user_name."' or email_id = '".$user_name."'");
+		if($result == 0)
 		{
-			$_SESSION['error_id'] = "Invalid user name.";
+			$_SESSION['error_id'] = "Invalid user name or password.";
+			$_SESSION['data'] = $_POST;
+			header('location: ../user_login.php');
 		}
-		if($password != $result["password"])
+		else
 		{
-			$_SESSION['error_password'] = "Invalid password";
+			$salt = "#asd!&%lkjhgd@@@";
+			$hash_password = md5(md5($salt) + md5($password));	
+
+			if( $result['password'] != $hash_password)
+			{
+				$_SESSION['error_password'] = "Invalid password";
+				$_SESSION['data'] = $_POST;
+				header('location: ../user_login.php');
+			}
+			else
+			{	
+				$post_data = get_row("select first_name, last_name, user_name, email_id, address_line1, address_line2, city, zip_code, state, country, profile_pic from user_data where user_name = '".$user_name."' or email_id = '".$user_name."'");
+				$_SESSION['data'] = $post_data;
+				header('location: ../user_profile.php');
+			}
 		}
 	}
-	$_SESSION['data'] = $_POST;
+	
 		
-	header('location: ../user_login.php');
+	
 ?>

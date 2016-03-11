@@ -52,6 +52,13 @@
 	{
 		$_SESSION['errors']['confirm_password'] = "Please confirm your password";
 	}
+	else
+	{
+		if($confirm_password != $password)
+		{
+			$_SESSION['errors']['confirm_password'] = "Password not match.";
+		}
+	}
 	if (empty($address_line1))
 	{
 		$_SESSION['errors']['address_line1'] = "Please enter your address";
@@ -88,7 +95,9 @@
 		$check_duplicate = get_row("SELECT user_name, email_id FROM user_data WHERE user_name= '".$user_name ."' or email_id = '".$email_id."'");
 		if($check_duplicate == 0)
 		{
-			$result = execute_query("INSERT INTO user_data (first_name, last_name, user_name, email_id, password, address_line1, address_line2, city, zip_code, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",array( $first_name, $last_name, $user_name, $email_id, $password, $address_line1, $address_line2, $city, $zip_code, $state, $country));
+			$salt = "#asd!&%lkjhgd@@@";
+			$hash_password = md5(md5($salt) + md5($password));
+			$result = execute_query("INSERT INTO user_data (first_name, last_name, user_name, email_id, password, address_line1, address_line2, city, zip_code, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",array( $first_name, $last_name, $user_name, $email_id, $hash_password, $address_line1, $address_line2, $city, $zip_code, $state, $country));
 			echo 'Your entry has been inserted.';
 			$_SESSION['data'] = $_POST;
 			header('location: ../user_profile.php');	
@@ -96,6 +105,7 @@
 		else
 		{
 			$_SESSION['duplicate_user'] = "This email or user name already exist.";
+			$_SESSION['data'] = $_POST;
 			header('location: ../registration.php');
 		}
 	}
