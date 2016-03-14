@@ -18,7 +18,7 @@
 		unset($_SESSION['error_password']);
 	}
 	$post_data = array();
-	if (isset($_SESSION['data']))
+	if (isset($_SESSION['user']))
 	{
 		$post_data = $_SESSION['data'];
 		unset($_SESSION['data']);	

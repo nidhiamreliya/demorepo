@@ -20,7 +20,7 @@
 		$result = get_row("select admin_id, admin_password from admin_data where admin_id = '".$admin_id."'");
 		if($result == 0)
 		{
-			$_SESSION['error_id'] = "Invalid user name or password.";
+			$_SESSION['error_id'] = "Invalid user name or email.";
 			$_SESSION['data'] = $_POST;
 			header('location: ../admin_login.php');
 		}
@@ -37,7 +37,7 @@
 			}
 			else
 			{	
-				$_SESSION['data'] = $post_data;
+				$_SESSION['admin'] = $_POST['admin_id'];
 				header('location: ../admin_panal.php');
 			}
 		}

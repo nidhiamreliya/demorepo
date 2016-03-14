@@ -9,24 +9,14 @@ function execute_query($query, $parameters = array())
 	$statement = $mysql_connection->prepare($query);
 	return $statement->execute($parameters);
 }
-
 function get_row($query, $parameters = array())
 {
 	global $mysql_connection;
-	try 
-	{
-		$statement = $mysql_connection->prepare($query);
-		$statement->execute($parameters);
-		$result = $statement->fetch();
-	} 
-	catch (Exception $e) 
-	{
-		print_r($e);
-	}
-	
+	$statement = $mysql_connection->prepare($query);
+	$statement->execute($parameters);
+	$result = $statement->fetch();
 	return $result;
 }
-
 function get_rows($query, $parameters = array())
 {
 	global $mysql_connection;

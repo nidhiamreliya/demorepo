@@ -15,8 +15,6 @@
 	{
 		$_SESSION['error'][] = "Please provide your password..";
 	}
-	
-
 	if(count($_SESSION['error']) == 0)
 	{
 		$result = get_row("select user_name, email_id, password from user_data where user_name = '".$user_name."' or email_id = '".$user_name."'");
@@ -39,13 +37,9 @@
 			}
 			else
 			{	
-				$post_data = get_row("select first_name, last_name, user_name, email_id, address_line1, address_line2, city, zip_code, state, country, profile_pic from user_data where user_name = '".$user_name."' or email_id = '".$user_name."'");
-				$_SESSION['data'] = $post_data;
+				$_SESSION['user'] = $_POST['user_name'];
 				header('location: ../user_profile.php');
 			}
 		}
-	}
-	
-		
-	
+	}	
 ?>
