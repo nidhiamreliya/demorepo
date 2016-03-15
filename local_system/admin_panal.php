@@ -1,8 +1,7 @@
 <?php
-//To retrive data form registration or login
+  //To retrive data form registration or login
   include('includes/session.php');
-  $post_data = array();
-  if (isset($_SESSION['admin']))
+  if ($_SESSION['privilege'] == 2 )
   {  
   	if(isset($_SESSION['message']))
   	{
@@ -21,7 +20,7 @@
 					<h1>Welcome <? if(isset($_SESSION['admin'])) { echo $_SESSION['admin']; } ?></h1>
 				</div>
 				<div class="col-md-3 col-md-offset-2">
-					<a value="Log out" class=" btn btn-success btn_logout"  name="logout" href="controllers/log_out.php">Log out</a>
+					<a value="Log out" class=" btn btn-success btn_head"  name="logout" href="controllers/log_out.php">Log out</a>
 				</div>
 			</div>
 		</div>
@@ -58,7 +57,7 @@
 				echo '<td>' . $row['zip_code'] . '</td>';
 				echo '<td>' . $row['state'] . '</td>';
 				echo '<td>' . $row['country'] . '</td>';
-				echo '<td><a href=\'user_profile.php?id='.$row['user_name'].'\'>Edit</a></td>';
+				echo '<td><a href=\'edit_admin.php?id='.$row['user_name'].'\'>Edit</a></td>';
 				echo '<td><a href=\'delete_user.php?id='.$row['user_name'].'\'>Delete</a></td>';
 				echo '</tr>';
 			}
@@ -81,7 +80,7 @@
 	}
   	else
   	{
-    	header('location: admin_login.php');
+    	header('location: user_login.php');
   	}
 	//This includes footer of the page
 	include('includes/footer.php');

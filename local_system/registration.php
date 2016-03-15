@@ -30,7 +30,7 @@
 				<h1>Registration Form</h1>
 			</div>	
 			<!-- Form starts -->	
-			<form class="form-horizontal reg_form" method="post" action="controllers/user_validation.php">
+			<form class="form-horizontal reg_form" method="post" action="controllers/user_validation.php" name="registration" onsubmit="return form_validation()">
   				<div class="form-group">
    					<label for="first name" class="col-md-4 control-label">First name:</label>
    					<div class="col-md-8">
@@ -104,7 +104,7 @@
   				<div class="form-group">
    					<label for="confirm password" class="col-md-4 control-label">Confirm Password:</label>
    					<div class="col-md-8">
-    				<input type="password" class="form-control" id="confirm_password" name="confirm_password"placeholder="Confirm password">
+    				<input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm password">
     				<label class="col-md-8 error_class">
               <?php 
                 if(isset($error_message['confirm_password'])) 

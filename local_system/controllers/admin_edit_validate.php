@@ -3,7 +3,7 @@
 	include('../config/database.php');
 	// Update profile picture
 		$target_dir = "/var/www/local_system/user_profiles/";
-		$target_file = $target_dir . $_SESSION['user_id'] . ".jpg" ;
+		$target_file = $target_dir . $_SESSION['user'] . ".jpg" ;
 		$_SESSION['upload_error'] = array();
 		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 		// Check if image file is a actual image or fake image
@@ -33,14 +33,14 @@
 			if (count($_SESSION['upload_error']) != 0) 
 			{
 			    $_SESSION['upload_error'][] = "Sorry, your file was not uploaded.";
-				header('location: ../user_profile.php');
+				header('location: ../edit_admin.php');
 			} 
 			else 
 			{
 			    if (move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $target_file)) 
 			    {
-			    	$result = execute_query("UPDATE user_data SET  profile_pic = '".$_SESSION['user_id'].".jpg' WHERE user_id = '".$_SESSION['user_id']."'");
-			    	header('location: ../user_profile.php');	
+			    	$result = execute_query("UPDATE user_data SET  profile_pic = '".$_SESSION['user'].".jpg' WHERE user_name = '".$_SESSION['user']."'");
+			    	header('location: ../edit_admin.php');	
 			    } 
 			    else 
 			    {
@@ -48,8 +48,8 @@
 		    	}
 			}
 		}
-		if(isset($_POST["submit"])) 
-		{
+	if(isset($_POST["submit"])) 
+	{
 	foreach ($_POST as $key => $value)
 	{
 		$$key = trim($value);	
@@ -139,22 +139,21 @@
 	{
 		if(empty($password))
 		{
-	   		$result = execute_query("UPDATE user_data SET first_name = ?, last_name = ?, address_line1 = ?, address_line2 = ?, city = ?, zip_code = ?,  state = ?,  country = ? WHERE user_id = ?", array($first_name, $last_name, $address_line1, $address_line2, $city, $zip_code, $state, $country, $_SESSION['user_id']));
-			header('location: ../user_profile.php');
+	   		$result = execute_query("UPDATE user_data SET first_name = ?, last_name = ?, user_name = ?, email_id = ?,  address_line1 = ?, address_line2 = ?, city = ?, zip_code = ?,  state = ?,  country = ? WHERE user_name = ?", array($first_name, $last_name, $user_name, $email_id, $address_line1, $address_line2, $city, $zip_code, $state, $country, $_SESSION['user']));
+	   		header('location: ../admin_panal.php');
 		}
 		else
 		{
 			$salt = "#asd!&%lkjhgd@@@";
 			$hash_password = md5(md5($salt) + md5($password));
-    		$result = execute_query("UPDATE user_data SET first_name = ?, last_name = ?, password = ?, address_line1 = ?, address_line2 = ?, city = ?, zip_code = ?,  state = ?,  country = ? WHERE user_id = ?", array($first_name, $last_name, $hash_password, $address_line1, $address_line2, $city, $zip_code, $state, $country, $_SESSION['user_id']));
-			$_SESSION['data'] = $result;
-			header('location: ../user_profile.php');
+    		$result = execute_query("UPDATE user_data SET first_name = ?, last_name = ?,user_name = ?, email_id = ?, password = ?, address_line1 = ?, address_line2 = ?, city = ?, zip_code = ?,  state = ?,  country = ? WHERE user_name = ?", array($first_name, $last_name, $user_name, $email_id, $hash_password, $address_line1, $address_line2, $city, $zip_code, $state, $country, $_SESSION['user']));
+			header('location: ../admin_panal.php');
 		}
 	}
 	else
 	{
-		$_SESSION['data'] = $_POST;
-		header('location: ../user_profile.php');	
+		echo $_SESSION['user'];
+		header('location: ../edit_admin.php');	
 	}
 }
 		

@@ -15,28 +15,36 @@
     	$error_message =  $_SESSION['errors'];
     	unset($_SESSION['errors']); 
   	}
-	if (isset($_SESSION['privilege']) && isset($_SESSION['user_id']))
+	if(isset($_SESSION['admin']))
 	{
+		if(isset($_GET['id']))
+		{
+			$_SESSION['user'] = $_GET['id'];
+			unset($_GET['id']);
+		}
 		//This includes header of the page
 		include('includes/header.php');
-		$post_data = get_row("select first_name, last_name, user_name, email_id, address_line1, address_line2, city, zip_code, state, country, profile_pic from user_data where user_id = ? ", array($_SESSION['user_id']));
+		$post_data = get_row("select first_name, last_name, user_name, email_id, address_line1, address_line2, city, zip_code, state, country, profile_pic from user_data where user_name = ? or email_id = ?", array($_SESSION['user'], $_SESSION['user']));
 ?>
 		<!-- Main body of the page -->
 		<div class="container-fluid">
 	   	<div class="row">
 		    <div class="form_head text-center">
 		      	<div class="col-md-4">
-					<h1>Welcome <? if(isset($_SESSION['user'])) { echo $_SESSION['user']; } ?></h1>
+					<h1><? if(isset($_SESSION['admin'])) { echo $_SESSION['admin']; } ?></h1>
 				</div>
-				<div class="col-md-3 col-md-offset-2 text-right">
-					<a value="Log out" class=" btn btn-success btn_head"  name="logout" href="controllers/log_out.php">Log out</a>
+				<div class="col-md-3 col-md-offset-3 text-right">
+					<ul class="nav nav-pills">
+  						<li role="presentation"><a value="Log out" class="btn-success btn_head" name="logout" href="controllers/log_out.php">Log out</a></li>
+  						<li role="presentation"><a value="back" class="btn-success btn_head"  name="back" href="admin_panal.php">Back</a></li>
+					</ul>
 				</div>
 		    </div>  
 	    </div>
 	    <!-- Form starts -->
 		 	<div class="row">	
 				<!-- Form for update user profile picture -->	
-				<form class="form-horizontal reg_form col-md-3 col_profil_pic text-center" method="post" action="controllers/edit_userprofile.php" enctype="multipart/form-data">
+				<form class="form-horizontal reg_form col-md-3 col_profil_pic text-center" method="post" action="controllers/admin_edit_validate.php" enctype="multipart/form-data">
 					<div class="text-center form_group">
 		         		<img src="user_profiles/<? if($post_data['profile_pic'] != null) { echo $post_data['profile_pic']; } else { echo "default_profile.jpg"; }?>"  class="profile_pic" alt="Profile not set">
 		            	<h6>Upload a different photo...</h6>
@@ -57,7 +65,7 @@
 				</form>
 				<!-- Form for update user data-->
 			   <div class="col-md-6"> 
-		        	<form class="form-horizontal reg_form" method="post" action="controllers/edit_userprofile.php"> 
+		        	<form class="form-horizontal reg_form" method="post" action="controllers/admin_edit_validate.php"> 
 			  			<div class="form-group">
 	   					<label for="first_name" class="col-md-4 control-label">First name:</label>
 	   					<div class="col-md-8">
@@ -89,7 +97,7 @@
 						<div class="form-group">
    							<label for="email_id" class="col-md-4 control-label">E-mail:</label>
    							<div class="col-md-8">
-    							<input type="text" class="form-control" id="email_id" name="email_id" <?if($_SESSION['privilege']==1) { echo "disabled"; }else{ echo "enabled";} ?> placeholder="Example@Email.com" value="<?=isset($post_data['email_id']) ? $post_data['email_id']: ''?>">
+    							<input type="text" class="form-control" id="email_id" name="email_id" placeholder="Example@Email.com" value="<?=isset($post_data['email_id']) ? $post_data['email_id']: ''?>">
     							<label class="col-md-8 error_class">
 			    					<?php 
 					               		if(isset($error_message['email_id'])) 
@@ -103,7 +111,7 @@
 	  					<div class="form-group">
 	   						<label for="user_name" class="col-md-4 control-label">User name:</label>
 	   						<div class="col-md-8">
-		    					<input type="text" class="form-control" id="user_name" name="user_name" placeholder="User name" <?if($_SESSION['privilege']==1) { echo "disabled"; }else{ echo "enabled";} ?> value="<?=isset($post_data['user_name']) ? $post_data['user_name']: ''?>">
+		    					<input type="text" class="form-control" id="user_name" name="user_name" placeholder="User name" value="<?=isset($post_data['user_name']) ? $post_data['user_name']: ''?>">
 		    					<label class="col-md-8 error_class">
 				              		<?php 
 				               			if(isset($error_message['user_name'])) 

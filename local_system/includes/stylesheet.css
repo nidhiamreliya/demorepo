@@ -3,13 +3,14 @@
 	border-bottom: 5px solid #00b359;
 	height: 90px;
 }
-.btn_logout
+.btn_head
 {
-	width: 155px;
+	width: 100px;
 	font-weight: bold;
 	font-size: 18px;
 	margin-top: 30px;
 	padding: 10px 20px;
+	text-align: center;
 }
 .btn_submit
 {
