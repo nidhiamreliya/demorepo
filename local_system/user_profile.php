@@ -2,7 +2,6 @@
 <?php
    //To retrive data form registration or login
 	include('includes/session.php');
-    $post_data = array();
     $upload_message = array(); 
 	if (isset($_SESSION['upload_error']) && count($_SESSION['upload_error']) > 0)
 	{
@@ -17,19 +16,54 @@
   	}
 	if (isset($_SESSION['privilege']) && isset($_SESSION['user_id']))
 	{
+
+		if(isset($_GET['id']) && $_GET['id'] != "" && $_SESSION['privilege'] == 2)
+		{
+			$edit_user = $_GET['id'];
+			unset($_GET['id']);
+		}
+		else if(isset($_SESSION['edit_user']) && $_SESSION['privilege'] == 2)
+		{
+			$edit_user = $_SESSION['edit_user'];
+			unset($_SESSION['edit_user']);
+		}
+		else if($_SESSION['privilege'] == 1)
+		{
+			$edit_user = $_SESSION['user_id'];
+		}
+		else 
+		{
+			header('location: admin_panal.php');
+		}
+	}
+  	else
+  	{
+    	header('location: user_login.php');
+  	}
 		//This includes header of the page
 		include('includes/header.php');
-		$post_data = get_row("select first_name, last_name, user_name, email_id, address_line1, address_line2, city, zip_code, state, country, profile_pic from user_data where user_id = ? ", array($_SESSION['user_id']));
+		$post_data = array();
+		$post_data = get_row("select user_id, first_name, last_name, user_name, email_id, address_line1, address_line2, city, zip_code, state, country, profile_pic from user_data where user_id = ? ", array($edit_user));
 ?>
 		<!-- Main body of the page -->
 		<div class="container-fluid">
 	   	<div class="row">
 		    <div class="form_head text-center">
 		      	<div class="col-md-4">
-					<h1>Welcome <? if(isset($_SESSION['user'])) { echo $_SESSION['user']; } ?></h1>
+					<h1>Welcome 
+						<?php
+							if(isset($post_data['first_name'])) 
+							{
+								echo $post_data['first_name']; 
+							} 
+						?>
+					</h1>
 				</div>
-				<div class="col-md-3 col-md-offset-2 text-right">
-					<a value="Log out" class=" btn btn-success btn_head"  name="logout" href="controllers/log_out.php">Log out</a>
+				<div class="col-md-3 col-md-offset-3 text-right">
+					<ul class="nav nav-pills">
+  						<li role="presentation"><a value="Log out" class="btn-success btn_head" name="logout" href="controllers/log_out.php">Log out</a></li>
+  						<li role="presentation"><a value="back" class="btn-success btn_head"  name="back" href="<?php if($_SESSION['privilege'] == 2) { echo "admin_panal.php"; } else { echo "controllers/log_out.php"; } ?>">Back</a></li>
+					</ul>				
 				</div>
 		    </div>  
 	    </div>
@@ -42,6 +76,7 @@
 		            	<h6>Upload a different photo...</h6>
 		            	<input type="file" name="profile_pic" class="form-control" id="profile_pic">
 		 				<input type="submit" value="Upload Image" class="form-control btn btn-success" name="img_submit">
+		 				<input type="hidden" name="edit_user_id" id="edit_user_id" value="<?=isset($post_data['user_id']) ? $post_data['user_id'] : 'NOT ANYTHING'?>">
 		 				<span class="error_class">
 			 				<?php 
 		                		if(isset($upload_message)) 
@@ -57,10 +92,11 @@
 				</form>
 				<!-- Form for update user data-->
 			   <div class="col-md-6"> 
-		        	<form class="form-horizontal reg_form" method="post" action="controllers/edit_userprofile.php"> 
+		        	<form class="form-horizontal reg_form" method="post" action="controllers/edit_userprofile.php" name="edit_profile" onsubmit="return edit_validation()"> 
 			  			<div class="form-group">
 	   					<label for="first_name" class="col-md-4 control-label">First name:</label>
 	   					<div class="col-md-8">
+	   						<input type="hidden" name="edit_user_id" id="edit_user_id" value="<?=isset($post_data['user_id']) ? $post_data['user_id'] : 'NOT ANYTHING'?>">
 	    					<input type="text" class="form-control" name="first_name" id="first_name" placeholder="First name" value="<?=isset($post_data['first_name']) ? $post_data['first_name']: ''?>">
 	    					<label class="col-md-8 error_class">
 					            <?php 
@@ -233,11 +269,6 @@
 			</div>
 		</div>
 <?php
-  	}
-  	else
-  	{
-    	header('location: user_login.php');
-  	}
 	//This includes footer of the page
 	include('includes/footer.php');
 ?>

@@ -8,6 +8,11 @@
   		$message = $_SESSION['message'];
   		unset($_SESSION['message']);
   	}
+  }
+  else
+  {
+   	header('location: user_login.php');
+  }
 	//This includes header of the page
 	include('includes/header.php');		
 ?>
@@ -17,10 +22,12 @@
 			<!-- page header -->
 			<div class="form_head">
 				<div class="col-md-4 col-md-offset-2">
-					<h1>Welcome <? if(isset($_SESSION['admin'])) { echo $_SESSION['admin']; } ?></h1>
+					<h1>Welcome Admin</h1>
 				</div>
 				<div class="col-md-3 col-md-offset-2">
-					<a value="Log out" class=" btn btn-success btn_head"  name="logout" href="controllers/log_out.php">Log out</a>
+					<ul class="nav nav-pills">
+  						<li role="presentation"><a value="Log out" class="btn-success btn_head" name="logout" href="controllers/log_out.php">Log out</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -28,7 +35,7 @@
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
 			<?php
-			$user_data = get_rows("SELECT first_name, last_name, user_name, email_id, address_line1, address_line2, city, zip_code, state, country FROM user_data");
+			$user_data = get_rows("SELECT user_id, first_name, last_name, user_name, email_id, address_line1, address_line2, city, zip_code, state, country FROM user_data");
 			
 			echo '<table class="table-striped col-md-12 table-bordered table-responsive">';
 			echo '<tr>';
@@ -57,8 +64,15 @@
 				echo '<td>' . $row['zip_code'] . '</td>';
 				echo '<td>' . $row['state'] . '</td>';
 				echo '<td>' . $row['country'] . '</td>';
-				echo '<td><a href=\'edit_admin.php?id='.$row['user_name'].'\'>Edit</a></td>';
-				echo '<td><a href=\'delete_user.php?id='.$row['user_name'].'\'>Delete</a></td>';
+				echo '<td><a href=\'user_profile.php?id='.$row['user_id'].'\'>Edit</a></td>';
+				if($row['user_id'] == $_SESSION['user_id'])
+				{
+					echo '<td>&nbsp</td>';
+				}
+				else
+				{
+					echo '<td><a onclick="return confirm(\'Are you Sure you want to delete ' . $row['first_name'] . '!\');" href=\'controllers/delete_user.php?id='.$row['user_id'].'\' >Delete</a></td>';
+				}
 				echo '</tr>';
 			}
 			echo '</table>';
@@ -77,11 +91,6 @@
 		</div>
 	</div>
 <?php
-	}
-  	else
-  	{
-    	header('location: user_login.php');
-  	}
 	//This includes footer of the page
 	include('includes/footer.php');
 ?>

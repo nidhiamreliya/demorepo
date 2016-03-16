@@ -14,6 +14,6 @@ include('config/database.php');
 		<!-- Include Stylesheet -->
 		<link rel="stylesheet" type="text/css" href="includes/stylesheet.css">
 		<!-- Include javascript file -->
-		<script src="js/validate_user.js"></script>
+		<script type="text/javascript" src="js/validate_user.js"></script>
 	</head>
 <body>

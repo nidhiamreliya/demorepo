@@ -23,17 +23,17 @@
 				<h1>User Login</h1>
 			</div>	
 			<!-- Form starts -->		
-			<form class="form-horizontal reg_form" method="post" action="controllers/ulogin_validation.php">
+			<form class="form-horizontal reg_form" method="post" action="controllers/ulogin_validation.php" onsubmit="return login_check()">
   				<div class="form-group">
    					<label for="user_name" class="col-md-4 control-label">User name:</label>
    					<div class="col-md-8">
-    					<input type="text" class="form-control" id="user_name" name="user_name" required placeholder="Enter your user name or email" value="<?=isset($post_data)?$post_data : '' ?>">
+    					<input type="text" class="form-control" id="user_name" name="user_name" placeholder="Enter your user name or email" value="<?=isset($post_data)?$post_data : '' ?>">
     				</div>
   				</div>
   				<div class="form-group">
    					<label for="password" class="col-md-4 control-label">Password:</label>
    					<div class="col-md-8">
-    					<input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+    					<input type="password" class="form-control" id="password" name="password" placeholder="Password" >
     				</div>
   				</div>
   				<div>

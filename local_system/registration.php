@@ -210,7 +210,7 @@
           </div>
   				<center>
   				<button type="submit" class="btn btn-block btn-success btn_submit">Submit</button>
-  				<center>
+  				</center>
 			</form>
 		</div>
 	</div>

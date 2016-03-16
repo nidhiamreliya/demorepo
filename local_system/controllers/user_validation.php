@@ -24,7 +24,7 @@
 	}
 	else
 	{
-		if (!preg_match("/^[a-zA-Z'-]+$/", $first_name))
+		if (!preg_match("/^[a-zA-Z'-]+$/", $last_name))
 		{
 			$_SESSION['errors']['last_name'] = "invalid last name";
 		}
@@ -97,10 +97,8 @@
 		{
 			$salt = "#asd!&%lkjhgd@@@";
 			$hash_password = md5(md5($salt) + md5($password));
-			$result = execute_query("INSERT INTO user_data (first_name, last_name, user_name, email_id, password, address_line1, address_line2, city, zip_code, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",array( $first_name, $last_name, $user_name, $email_id, $hash_password, $address_line1, $address_line2, $city, $zip_code, $state, $country));
-			$_SESSION['data'] = $_POST;
-			$_SESSION['user'] = $_POST['user_name'];
-			header('location: ../user_profile.php');	
+			$result = execute_query("INSERT INTO user_data (privilege, first_name, last_name, user_name, email_id, password, address_line1, address_line2, city, zip_code, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",array(1, $first_name, $last_name, $user_name, $email_id, $hash_password, $address_line1, $address_line2, $city, $zip_code, $state, $country));
+			header('location: ../user_login.php');	
 		}
 		else
 		{
