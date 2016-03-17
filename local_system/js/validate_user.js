@@ -1,4 +1,4 @@
-
+// Validate data entered by user in registration form
 function form_validation()
 {
 	var first_name = document.registration.first_name.value;  
@@ -62,6 +62,7 @@ function form_validation()
 		}  
 	}
 }
+// Validate data entered by user in user profile form
 function edit_validation()
 {
 	var first_name = document.edit_profile.first_name.value;  
@@ -126,6 +127,7 @@ function edit_validation()
 		}  
 	}
 }
+// Validate user login
 function login_check()
 {
 	var user_name = document.registration.user_name.value;  

@@ -1,7 +1,7 @@
 
 <?php
-	//This is for check errors if any.
-	include('includes/session.php');	
+	//This is for check errors in submitting form.
+	include('includes/session.php');
 	if (isset($_SESSION['error']) && count($_SESSION['error']) > 0)
 	{
 		$error_message = implode('<br/> ', $_SESSION['error']);
@@ -18,12 +18,12 @@
 	<!-- Main body of the page -->
 	<div class="container-fluid">
 		<div class="col-md-6 col-md-offset-3">	
-			<!-- form header -->
+			<!-- Page header -->
 			<div class="form_head text-center">
 				<h1>User Login</h1>
 			</div>	
-			<!-- Form starts -->		
-			<form class="form-horizontal reg_form" method="post" action="controllers/ulogin_validation.php" onsubmit="return login_check()">
+			<!--  Login form -->		
+			<form class="form-horizontal reg_form" method="post" action="controllers/user_login.php" onsubmit="return login_check()">
   				<div class="form-group">
    					<label for="user_name" class="col-md-4 control-label">User name:</label>
    					<div class="col-md-8">

@@ -1,6 +1,6 @@
 
 <?php
-   //To retrive data form registration or login
+   // To check if any errors in submitting form
 	include('includes/session.php');
     $upload_message = array(); 
 	if (isset($_SESSION['upload_error']) && count($_SESSION['upload_error']) > 0)
@@ -14,11 +14,15 @@
     	$error_message =  $_SESSION['errors'];
     	unset($_SESSION['errors']); 
   	}
+  	// Check authenticated user or not.
 	if (isset($_SESSION['privilege']) && isset($_SESSION['user_id']))
 	{
-
-		if(isset($_GET['id']) && $_GET['id'] != "" && $_SESSION['privilege'] == 2)
+		if(isset($_GET['id']) && $_SESSION['privilege'] == 2)
 		{
+			if ($_GET['id'] == "")
+			{
+				header('location: admin_panal.php');
+			}
 			$edit_user = $_GET['id'];
 			unset($_GET['id']);
 		}
@@ -33,20 +37,21 @@
 		}
 		else 
 		{
-			header('location: admin_panal.php');
+			header('location: admin_panel.php');
 		}
 	}
   	else
   	{
     	header('location: user_login.php');
   	}
-		//This includes header of the page
+		// This includes header of the page
 		include('includes/header.php');
 		$post_data = array();
 		$post_data = get_row("select user_id, first_name, last_name, user_name, email_id, address_line1, address_line2, city, zip_code, state, country, profile_pic from user_data where user_id = ? ", array($edit_user));
 ?>
 		<!-- Main body of the page -->
 		<div class="container-fluid">
+		<!-- Header of page -->
 	   	<div class="row">
 		    <div class="form_head text-center">
 		      	<div class="col-md-4">
@@ -62,21 +67,21 @@
 				<div class="col-md-3 col-md-offset-3 text-right">
 					<ul class="nav nav-pills">
   						<li role="presentation"><a value="Log out" class="btn-success btn_head" name="logout" href="controllers/log_out.php">Log out</a></li>
-  						<li role="presentation"><a value="back" class="btn-success btn_head"  name="back" href="<?php if($_SESSION['privilege'] == 2) { echo "admin_panal.php"; } else { echo "controllers/log_out.php"; } ?>">Back</a></li>
+  						<li role="presentation"><a value="back" class="btn-success btn_head"  name="back" href="<?php if($_SESSION['privilege'] == 2) { echo "admin_panel.php"; } else { echo "controllers/log_out.php"; } ?>">Back</a></li>
 					</ul>				
 				</div>
 		    </div>  
 	    </div>
-	    <!-- Form starts -->
+	    <!--  Middle Body of the page -->
 		 	<div class="row">	
 				<!-- Form for update user profile picture -->	
-				<form class="form-horizontal reg_form col-md-3 col_profil_pic text-center" method="post" action="controllers/edit_userprofile.php" enctype="multipart/form-data">
+				<form class="form-horizontal reg_form col-md-3 col_profil_pic text-center" method="post" action="controllers/user_profile.php" enctype="multipart/form-data">
 					<div class="text-center form_group">
 		         		<img src="user_profiles/<? if($post_data['profile_pic'] != null) { echo $post_data['profile_pic']; } else { echo "default_profile.jpg"; }?>"  class="profile_pic" alt="Profile not set">
 		            	<h6>Upload a different photo...</h6>
 		            	<input type="file" name="profile_pic" class="form-control" id="profile_pic">
 		 				<input type="submit" value="Upload Image" class="form-control btn btn-success" name="img_submit">
-		 				<input type="hidden" name="edit_user_id" id="edit_user_id" value="<?=isset($post_data['user_id']) ? $post_data['user_id'] : 'NOT ANYTHING'?>">
+		 				<input type="hidden" name="edit_user_id" id="edit_user_id" value="<?=isset($post_data['user_id']) ? $post_data['user_id'] : ''?>">
 		 				<span class="error_class">
 			 				<?php 
 		                		if(isset($upload_message)) 
@@ -90,9 +95,9 @@
 	              		</span>
 			   		</div>
 				</form>
-				<!-- Form for update user data-->
-			   <div class="col-md-6"> 
-		        	<form class="form-horizontal reg_form" method="post" action="controllers/edit_userprofile.php" name="edit_profile" onsubmit="return edit_validation()"> 
+				<!-- Form for update user information -->
+			   	<div class="col-md-6"> 
+		        	<form class="form-horizontal reg_form" method="post" action="controllers/user_profile.php" name="edit_profile" onsubmit="return edit_validation()"> 
 			  			<div class="form-group">
 	   					<label for="first_name" class="col-md-4 control-label">First name:</label>
 	   					<div class="col-md-8">

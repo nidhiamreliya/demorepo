@@ -1,6 +1,5 @@
-
 <?php
-  //This is for check errors if any.
+  //This is for check errors in submitting form.
   include('includes/session.php'); 
   $error_message = array(); 
   if (isset($_SESSION['errors']) && count($_SESSION['errors']) > 0)
@@ -8,16 +7,16 @@
     $error_message =  $_SESSION['errors'];
     unset($_SESSION['errors']); 
   }
+  if (isset($_SESSION['duplicate_user']))
+  {
+    $duplicate_user = $_SESSION['duplicate_user'];
+    unset($_SESSION['duplicate_user']);
+  }
   $post_data = array();
   if (isset($_SESSION['data']))
   {
     $post_data = $_SESSION['data'];
     unset($_SESSION['data']); 
-  }
-  if (isset($_SESSION['duplicate_user']))
-  {
-    $duplicate_user = $_SESSION['duplicate_user'];
-    unset($_SESSION['duplicate_user']);
   }
 	//This includes header of the page
 	include('includes/header.php');
@@ -25,12 +24,12 @@
 	<!-- Main body of the page -->
 	<div class="container-fluid">
 		<div class="col-md-6 col-md-offset-3">	
-			<!-- form header -->
+			<!-- Page header -->
 			<div class="form_head text-center">
 				<h1>Registration Form</h1>
 			</div>	
-			<!-- Form starts -->	
-			<form class="form-horizontal reg_form" method="post" action="controllers/user_validation.php" name="registration" onsubmit="return form_validation()">
+			<!-- Registration form -->	
+			<form class="form-horizontal reg_form" method="post" action="controllers/registration.php" name="registration" id="registration" onsubmit = "return form_validation()">
   				<div class="form-group">
    					<label for="first name" class="col-md-4 control-label">First name:</label>
    					<div class="col-md-8">
@@ -208,13 +207,12 @@
               ?>
             </label>
           </div>
-  				<center>
+          <div class="text-center col-md-8 col-md-offset-4">
   				<button type="submit" class="btn btn-block btn-success btn_submit">Submit</button>
-  				</center>
+          </div>
 			</form>
 		</div>
 	</div>
-
 <?php
 	//This includes footer of the page
 	include('includes/footer.php');
