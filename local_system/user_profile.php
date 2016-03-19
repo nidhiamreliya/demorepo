@@ -1,53 +1,47 @@
 
 <?php
-   // To check if any errors in submitting form
 	include('includes/session.php');
+	// Check if any errors in submitting form.
     $upload_message = array(); 
 	if (isset($_SESSION['upload_error']) && count($_SESSION['upload_error']) > 0)
 	{
 		$upload_message = $_SESSION['upload_error'];
 	 	unset($_SESSION['upload_error']); 
 	}
+	if (isset($_SESSION['duplicate_user']))
+  	{
+    	$duplicate_user = $_SESSION['duplicate_user'];
+    	unset($_SESSION['duplicate_user']);
+  	}
 	$error_message = array(); 
   	if (isset($_SESSION['errors']) && count($_SESSION['errors']) > 0)
   	{
     	$error_message =  $_SESSION['errors'];
     	unset($_SESSION['errors']); 
   	}
-  	// Check authenticated user or not.
-	if (isset($_SESSION['privilege']) && isset($_SESSION['user_id']))
+  	//check authenticatin
+  	include('controllers/check_authentication.php');
+	if(isset($_GET['id']))
 	{
-		if(isset($_GET['id']) && $_SESSION['privilege'] == 2)
+		if ($_GET['id'] == "")
 		{
-			if ($_GET['id'] == "")
-			{
-				header('location: admin_panal.php');
-			}
-			$edit_user = $_GET['id'];
-			unset($_GET['id']);
+			header('location: admin_panal.php');
 		}
-		else if(isset($_SESSION['edit_user']) && $_SESSION['privilege'] == 2)
-		{
-			$edit_user = $_SESSION['edit_user'];
-			unset($_SESSION['edit_user']);
-		}
-		else if($_SESSION['privilege'] == 1)
-		{
-			$edit_user = $_SESSION['user_id'];
-		}
-		else 
-		{
-			header('location: admin_panel.php');
-		}
+		$edit_user = $_GET['id'];
+		unset($_GET['id']);
 	}
-  	else
-  	{
-    	header('location: user_login.php');
-  	}
-		// This includes header of the page
-		include('includes/header.php');
-		$post_data = array();
-		$post_data = get_row("select user_id, first_name, last_name, user_name, email_id, address_line1, address_line2, city, zip_code, state, country, profile_pic from user_data where user_id = ? ", array($edit_user));
+	else if(isset($_SESSION['edit_user']))
+	{
+		$edit_user = $_SESSION['edit_user'];
+	}
+	else
+	{
+		$edit_user = $_SESSION['user_id'];
+	}
+	// This includes header of the page
+	include('includes/header.php');
+	$post_data = array();
+	$post_data = get_row("select user_id, first_name, last_name, user_name, email_id, address_line1, address_line2, city, zip_code, state, country, profile_pic from user_data where user_id = ? ", array($edit_user));
 ?>
 		<!-- Main body of the page -->
 		<div class="container-fluid">
@@ -98,6 +92,16 @@
 				<!-- Form for update user information -->
 			   	<div class="col-md-6"> 
 		        	<form class="form-horizontal reg_form" method="post" action="controllers/user_profile.php" name="edit_profile" onsubmit="return edit_validation()"> 
+			  			<div>
+          					<label class="col-md-8 col-md-offset-4 error_class">
+              				<?php 
+                				if(isset($duplicate_user)) 
+                				{
+                   					echo $duplicate_user;
+                				}
+              				?>
+            				</label>
+          				</div>
 			  			<div class="form-group">
 	   					<label for="first_name" class="col-md-4 control-label">First name:</label>
 	   					<div class="col-md-8">

@@ -30,7 +30,17 @@
 			</div>	
 			<!-- Registration form -->	
 			<form class="form-horizontal reg_form" method="post" action="controllers/registration.php" name="registration" id="registration" onsubmit = "return form_validation()">
-  				<div class="form-group">
+  				<div>
+            <label class="col-md-8 col-md-offset-4 error_class">
+              <?php 
+                 if(isset($duplicate_user)) 
+                 {
+                    echo $duplicate_user;
+                  }
+              ?>
+             </label>
+          </div>
+          <div class="form-group">
    					<label for="first name" class="col-md-4 control-label">First name:</label>
    					<div class="col-md-8">
     				<input type="text" class="form-control" id="first_name" name="first_name" placeholder="First name" value="<?=isset($post_data['first_name']) ? $post_data['first_name']: ''?>">
@@ -197,16 +207,6 @@
             </label>
     				</div>
   				</div>
-          <div>
-          <label class="col-md-8 col-md-offset-4 error_class">
-              <?php 
-                if(isset($duplicate_user)) 
-                {
-                   echo $duplicate_user;
-                }
-              ?>
-            </label>
-          </div>
           <div class="text-center col-md-8 col-md-offset-4">
   				<button type="submit" class="btn btn-block btn-success btn_submit">Submit</button>
           </div>

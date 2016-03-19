@@ -9,6 +9,7 @@ $mysql_connection = new PDO("mysql:host=localhost;dbname=ps_system", $mysql_user
 	*@param: query parameters
 	*@return: true or false   
 */
+	
 function execute_query($query, $parameters = array())
 {
 	global $mysql_connection;
